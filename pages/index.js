@@ -4,8 +4,8 @@ import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Charts from '../components/Charts'
 
-function Home({ github, kiubix }) {
-  const [data, setData] = useState(kiubix)
+function Home({ github, information }) {
+  const [data, setData] = useState(information)
   const [chart, setCharts] = useState('Line')
 
   const handleChart = event => {
@@ -19,7 +19,7 @@ function Home({ github, kiubix }) {
   const handleData = (event) => {
     event.preventDefault()
 
-    var list = kiubix
+    var list = information
     
     const month = document.forms["form-date"].Month.value;
     const year = document.forms["form-date"].Year.value;
@@ -96,16 +96,16 @@ function Home({ github, kiubix }) {
 
 export async function getStaticProps (context) {
   const github = await axios.get('https://api.github.com/users/sonnymijael')
-  const kiubix = await axios.get('http://api.simplus.kiubix.biz/api/gaday')
+  const information = await axios.get('http://api.simplus.kiubix.biz/api/gaday')
 
-  Promise.all([github, kiubix]).then((values) => {
+  Promise.all([github, information]).then((values) => {
     console.log(values)
   })
 
   return {
     props: {
       github: github.data,
-      kiubix: kiubix.data
+      information: information.data
     }
   }
 }
